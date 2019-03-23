@@ -1,0 +1,52 @@
+Integrating AWS-Jenkins 3-18 Notes
+
+- Create image of Instance on AWS of Target instance (grace termination period 30 mins)
+- Create user in AWS and grant it credentials
+
+- Install ec2 plugin on jenkins
+	- Configure it, give Admin access for test purpose
+	- Add AWS credentials (add secret key, and account number (access key ID))
+	- Give region (US-East 1)
+	- Put Maven in build
+	- Get .pem private key from git (Cat BXKey) and copy it. Add it to Jenkins Ec2 keypair private key (copy and paste)
+	- Get AMI ID from the image created of Target instance in AWS and paste it in AMI ID
+	- Remote FS Root (/home/ec2-user)
+	- User (ec2-user)
+	- create new pipeline (label is ec2cloudmaven)
+	
+
+	- enter syntax "node('ec2cloud-maven'){
+		stage('checkout'){
+			git 'http://github<hyperlink>
+}
+		stage('build'){
+		sh "mvn clean package"
+
+}
+		stage('awsclic'){
+		sh '''
+		$ curl -O https://bootstrap.pypa.io/get-pip.py
+		sudo python get-pip.py
+		sudo pip install awscli
+		aws --version
+		***
+}
+}
+
+
+
+		
+}
+			
+The job should now configure and start running!
+
+
+			
+To run multiple agents, go add another AMI with a different label under configure jenkins e.g. types of agents.
+
+*To copy the artifacts:
+
+	
+
+Here's what actually happened with religion:
+
